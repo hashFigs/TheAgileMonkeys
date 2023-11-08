@@ -70,6 +70,11 @@ public class ApplicationUser  implements UserDetails{
         this.userId = userId;
     }
 
+    public void setUsername(String username){
+        this.username = username;
+    }
+    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;

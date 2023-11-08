@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,11 +44,18 @@ public class MediaService {
 
             // Save the file to the specified folder
             Files.write(Paths.get(filePath), file.getBytes());
-
+            
             Media media = new Media();
             media.setMediaData(file.getBytes());
+            media.setFileName(uniqueFileName);
             
             //TODO: images utilities
+            media.setContentType("image");
+            
+            LocalDate localDate = LocalDate.now();
+            Date uploadDate = Date.valueOf(localDate);
+            
+            media.setUploadDate(uploadDate);
             media.setHeight(20);
             media.setSize(400);
             media.setWidth(20);

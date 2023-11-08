@@ -2,15 +2,20 @@ package com.example.agile.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.agile.models.Customer;
 import com.example.agile.services.CustomerService;
@@ -38,12 +43,18 @@ public class CustomerController {
             public Customer getCustomer(@PathVariable Long customerId) {
             return customerService.getCustomer(customerId);
         }
-         @PostMapping("/")
-            public Customer createCustomer(@RequestBody Customer customer) {
-            System.out.println("creating customer-controller");
+      //   @PostMapping("/")
+      //      public Customer createCustomer(@RequestBody Customer customer) {
+      //      System.out.println("creating customer-controller");
 
-            return customerService.createCustomer(customer);
-        }
+      //      return customerService.createCustomer(customer);
+      //  }
+        @PostMapping("/")
+        public Customer createCustomer(@ModelAttribute Customer customer, @RequestParam("file") MultipartFile file) throws Exception {
+           
+            return customerService.createCustomer(customer, file);
+}
+
 
         @PutMapping("/{customerId}")
         public Customer updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {

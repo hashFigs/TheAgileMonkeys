@@ -18,7 +18,7 @@ public class Customer {
 
     // You can customize the photo field based on your requirements.
     // For simplicity, we'll use a String to store the photo URL.
-    private String photo;
+    private Long photoId;
 
     // Constructors, getters, and setters
 
@@ -26,10 +26,10 @@ public class Customer {
         // Default constructor
     }
 
-    public Customer(String name, String surname, String photo) {
+    public Customer(String name, String surname, Long photoId) {
         this.name = name;
         this.surname = surname;
-        this.photo = photo;
+        this.photoId = photoId;
     }
 
     // Getters and setters for the fields
@@ -58,11 +58,11 @@ public class Customer {
         this.surname = surname;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Long getPhoto() {
+        return photoId;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhoto(Long photoId) {
+        this.photoId = photoId;
     }
 }
