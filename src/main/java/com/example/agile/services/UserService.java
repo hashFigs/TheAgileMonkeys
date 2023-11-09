@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.management.relation.RoleNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.agile.models.ApplicationUser;
 import com.example.agile.models.Customer;
 import com.example.agile.models.Role;
+import com.example.agile.repository.RoleRepository;
 import com.example.agile.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,6 +31,7 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -68,6 +72,32 @@ public class UserService implements UserDetailsService{
 
       return userRepository.save(existingUser);
   }
+
+
+   
+  @Transactional
+    public ApplicationUser changeUserRole(String username, String newRole) {
+        // Retrieve the user by username
+       ApplicationUser user = userRepository.findByUsername(username)
+            .orElseThrow();
+
+    // Retrieve the role by authority
+    Role userRole = roleRepository.findByAuthority(newRole)
+            .orElseThrow();
+
+        
+        Set<Role> authorities = new HashSet<>();
+        authorities.add(userRole);    
+
+        // Update the user's role
+        user.setAuthorities(authorities);
+
+        // Save the updated user
+       return userRepository.save(user);
+        
+    }
+
+
   
   @Transactional  
   public void deleteUser(Long userId) {

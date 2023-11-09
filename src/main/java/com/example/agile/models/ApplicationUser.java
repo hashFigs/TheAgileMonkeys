@@ -80,6 +80,15 @@ public class ApplicationUser  implements UserDetails{
         return this.authorities;
     }
 
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
+    }
+
+    //@Override
+    //public Collection<? extends GrantedAuthority> setAuthorities(authorities) {
+    //    this.authorities = authorities;
+    //}
+
     @Override
     public String getPassword() {
         return this.password;
