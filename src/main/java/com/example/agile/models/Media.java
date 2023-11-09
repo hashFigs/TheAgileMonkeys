@@ -31,7 +31,8 @@ public class Media {
     public Media() {
         // Default constructor
     }
-
+   
+    //TODO: images heigh...width... 
     public Media(byte[] mediaData, String fileName, String contentType, Date uploadDate, int height, int width, long mediaSize) {
         this.mediaData = mediaData;
         this.fileName = fileName;

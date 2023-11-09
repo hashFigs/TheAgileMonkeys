@@ -20,19 +20,30 @@ public class Customer {
     // For simplicity, we'll use a String to store the photo URL.
     private Long photoId;
 
+    private String lastUpdated;
+
     // Constructors, getters, and setters
 
     public Customer() {
         // Default constructor
     }
 
-    public Customer(String name, String surname, Long photoId) {
+    public Customer(String name, String surname, Long photoId, String lastUpdated) {
         this.name = name;
         this.surname = surname;
         this.photoId = photoId;
+        this.lastUpdated = lastUpdated;
     }
 
     // Getters and setters for the fields
+    
+    public String getLastUpdated(){
+        return this.lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated){
+        this.lastUpdated = lastUpdated;
+    }
 
     public Long getId() {
         return id;

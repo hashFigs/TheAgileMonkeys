@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.example.agile.utils.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.RSAKey.Builder;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -28,7 +27,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 public class SecurityConfiguration {
@@ -110,4 +109,14 @@ public class SecurityConfiguration {
         return jwtConverter;
     }
     
+    
+    
+
+
+
+    
+    
+
+
+
 }

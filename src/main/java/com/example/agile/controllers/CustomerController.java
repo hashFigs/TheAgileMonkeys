@@ -2,8 +2,6 @@ package com.example.agile.controllers;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,28 +41,20 @@ public class CustomerController {
             public Customer getCustomer(@PathVariable Long customerId) {
             return customerService.getCustomer(customerId);
         }
-      //   @PostMapping("/")
-      //      public Customer createCustomer(@RequestBody Customer customer) {
-      //      System.out.println("creating customer-controller");
-
-      //      return customerService.createCustomer(customer);
-      //  }
+     
         @PostMapping("/")
-        public Customer createCustomer(@ModelAttribute Customer customer, @RequestParam("file") MultipartFile file) throws Exception {
-           
-            return customerService.createCustomer(customer, file);
-}
-
-
+            public Customer createCustomer(@ModelAttribute Customer customer, @RequestParam("file") MultipartFile file) throws Exception {
+                return customerService.createCustomer(customer, file);
+            }
         @PutMapping("/{customerId}")
-        public Customer updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
-            return customerService.updateCustomer(customerId, customer);
-        }
+            public Customer updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
+                 return customerService.updateCustomer(customerId, customer);
+             }
 
         @DeleteMapping("/{customerId}")
-        public void deleteCustomer(@PathVariable Long customerId) {
-            customerService.deleteCustomer(customerId);
-        }
+             public void deleteCustomer(@PathVariable Long customerId) {
+                customerService.deleteCustomer(customerId);
+            }
     
 
 
