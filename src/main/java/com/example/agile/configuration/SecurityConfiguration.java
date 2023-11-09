@@ -60,8 +60,10 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/auth/**").permitAll();
                 auth.requestMatchers("/customers/**").permitAll();
+              //  auth.requestMatchers("/customers/**").hasAnyRole("ADMIN", "USER");
                 auth.requestMatchers("/media/**").permitAll();
                 auth.requestMatchers("/user/**").permitAll();
+               // auth.requestMatchers("/user/**").hasAnyRole("ADMIN");
                 auth.requestMatchers("/admin/**").permitAll();
 
            //     auth.requestMatchers("/admin/**").hasRole("ADMIN");

@@ -53,11 +53,14 @@ public class CustomerService {
 
     public Customer updateCustomer(Long customerId, Customer updatedCustomer) {
         // Check if the customer exists
+        //TODO: Check if wrong customer
         Customer existingCustomer = getCustomer(customerId);
 
         // You can add validation and business logic here
         existingCustomer.setName(updatedCustomer.getName());
+        existingCustomer.setName(updatedCustomer.getSurname());
 
+        //TODO: pHOTO
         return customerRepository.save(existingCustomer);
     }
 

@@ -31,6 +31,8 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Override
@@ -76,15 +78,17 @@ public class UserService implements UserDetailsService{
 
    
   @Transactional
-    public ApplicationUser changeUserRole(String username, String newRole) {
+    public ApplicationUser changeUserRole(String username, String newRole) throws Exception {
         // Retrieve the user by username
-       ApplicationUser user = userRepository.findByUsername(username)
-            .orElseThrow();
+       Optional<ApplicationUser> optionalUser = userRepository.findByUsername(username);
+       ApplicationUser user = optionalUser.orElseThrow(() -> new Exception("User not found with username: " + username));
 
+            
     // Retrieve the role by authority
-    Role userRole = roleRepository.findByAuthority(newRole)
-            .orElseThrow();
+      Optional<Role> optionalUserRole = roleRepository.findByAuthority(newRole);
+      Role userRole = optionalUserRole.orElseThrow(() -> new Exception("Role not found with role: " + newRole));
 
+          
         
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);    

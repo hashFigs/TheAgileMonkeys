@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.agile.models.ApplicationUser;
 import com.example.agile.models.LoginResponseDTO;
 import com.example.agile.models.RegistrationDTO;
+import com.example.agile.models.RoleChangeDTO;
 import com.example.agile.services.AuthenticationService;
 import com.example.agile.services.UserService;
 
@@ -34,14 +35,18 @@ public class AdminController {
         return "hi admin";
     }    
 
+    
+
+
+
     @PostMapping("/user/change-role")
-    public String changeUserRole() {
+    public ApplicationUser changeUserRole(@RequestBody RoleChangeDTO body) throws Exception {
    
     System.out.println("hola");
-    System.out.println("poma");
+    System.out.println(body.getUsername());
 
     userService.getAllUsers();
-   // return userService.changeUserRole(username, newRole);
-   return "hola"; 
+    
+    return userService.changeUserRole(body.getUsername(), body.getNewRole());
 }
 }
