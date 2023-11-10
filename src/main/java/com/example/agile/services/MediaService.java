@@ -25,7 +25,7 @@ public class MediaService {
    @Autowired
     private MediaRepository mediaRepository; // Create a MediaRepository to work with your database
     
-    public Long uploadMedia(MultipartFile file) throws Exception {
+    public Media uploadMedia(MultipartFile file) throws Exception {
         try {
 
             File uploadDirectory = new File(uploadPath);
@@ -61,7 +61,10 @@ public class MediaService {
 
 
             Media savedMedia = mediaRepository.save(media);
-            return savedMedia.getId();
+            
+            media.setId(savedMedia.getId());
+         
+            return media;
         } catch (IOException e) {
             // Handle file upload error
             throw new Exception("Failed to upload media", e);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.agile.models.Customer;
+import com.example.agile.models.CustomerDTO;
 import com.example.agile.services.CustomerService;
     
 
@@ -43,12 +44,16 @@ public class CustomerController {
         }
      
         @PostMapping("/")
-            public Customer createCustomer(@ModelAttribute Customer customer, @RequestParam("file") MultipartFile file) throws Exception {
+            public CustomerDTO createCustomer(@ModelAttribute Customer customer, @RequestParam("file") MultipartFile file) throws Exception {
                 return customerService.createCustomer(customer, file);
             }
         @PutMapping("/{customerId}")
-            public Customer updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
-                 return customerService.updateCustomer(customerId, customer);
+            public CustomerDTO updateCustomer(
+                @PathVariable Long customerId, 
+                @ModelAttribute Customer customer, 
+                @RequestParam("file") MultipartFile file ) throws Exception {
+                 
+                    return customerService.updateCustomer(customerId, customer, file);
              }
 
         @DeleteMapping("/{customerId}")

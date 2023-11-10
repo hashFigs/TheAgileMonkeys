@@ -34,7 +34,7 @@ public class MediaController {
 
     @PostMapping("/upload")
     public Long uploadMedia(@RequestParam("file") MultipartFile file) throws Exception {
-        return mediaService.uploadMedia(file);
+        return mediaService.uploadMedia(file).getId();
     }
 
     //@PutMapping("/{id}")

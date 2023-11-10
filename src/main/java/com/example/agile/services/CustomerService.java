@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import com.example.agile.models.Customer;
+import com.example.agile.models.CustomerDTO;
+import com.example.agile.models.Media;
 import com.example.agile.repository.CustomerRepository;
 
 import java.util.List;
@@ -41,33 +43,62 @@ public class CustomerService {
         }
     }
 
-    public Customer createCustomer(Customer customer, MultipartFile file) throws Exception {
+    public CustomerDTO createCustomer(Customer customer, MultipartFile file) throws Exception {
         // You can add validation and business logic here
         System.out.println(customer);
+        CustomerDTO customerDTO = new CustomerDTO();
+        
+        
         if (file != null) {
-            Long mediaUploaded = mediaService.uploadMedia(file);
-            customer.setPhoto(mediaUploaded);
-           
-        }
+            Media mediaUploaded = mediaService.uploadMedia(file);
+            customer.setPhoto(mediaUploaded.getId());
+            customerDTO.setMediaId(mediaUploaded.getId());
+            customerDTO.setPhotoUrl(mediaUploaded.getFileName());
 
+        }
+        
         customer.setLastUpdated(getUserIdFromRequest());
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+
+
+        customerDTO.setId(customer.getId());
+        customerDTO.setName(customer.getName());
+        customerDTO.setSurname(customer.getSurname());
+        customerDTO.setName(customer.getName());
+        customerDTO.setLastUpdatedBy(customer.getLastUpdated());
+
+
+        return customerDTO;
     }
 
-    public Customer updateCustomer(Long customerId, Customer updatedCustomer) {
+    public CustomerDTO updateCustomer(Long customerId, Customer updatedCustomer, MultipartFile file) throws Exception {
         // Check if the customer exists
         //TODO: Check if wrong customer
         Customer existingCustomer = getCustomer(customerId);
+        CustomerDTO customerDTO = new CustomerDTO();
+ 
+         if (file != null) {
+            Media mediaUploaded = mediaService.uploadMedia(file);
+            existingCustomer.setPhoto(mediaUploaded.getId());
+            customerDTO.setMediaId(mediaUploaded.getId());
+            customerDTO.setPhotoUrl(mediaUploaded.getFileName());
 
-        // You can add validation and business logic here
+        }
+        
+         // You can add validation and business logic here
         existingCustomer.setName(updatedCustomer.getName());
-        existingCustomer.setName(updatedCustomer.getSurname());
+        existingCustomer.setSurname(updatedCustomer.getSurname());
         existingCustomer.setLastUpdated(getUserIdFromRequest());
+        customerRepository.save(existingCustomer);
 
+        customerDTO.setId(existingCustomer.getId());
+        customerDTO.setName(existingCustomer.getName());
+        customerDTO.setSurname(existingCustomer.getSurname());
+        customerDTO.setName(existingCustomer.getName());
+        customerDTO.setLastUpdatedBy(existingCustomer.getLastUpdated());
+       
 
-        //TODO: pHOTO
-
-        return customerRepository.save(existingCustomer);
+        return  customerDTO;
     }
 
     public void deleteCustomer(Long customerId) {
