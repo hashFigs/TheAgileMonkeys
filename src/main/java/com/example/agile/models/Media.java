@@ -30,6 +30,7 @@ public class Media {
 
     public Media() {
         // Default constructor
+        super();
     }
    
     //TODO: images heigh...width... 
@@ -81,8 +82,8 @@ public class Media {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
+    public void setUploadDate(Date date) {
+        this.uploadDate = date;
     }
 
     public int getHeight() {
