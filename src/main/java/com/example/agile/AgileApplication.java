@@ -21,6 +21,10 @@ public class AgileApplication {
 		SpringApplication.run(AgileApplication.class, args);
 	}
     
+	
+
+
+
     @Bean
 	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder){
           return args ->{
