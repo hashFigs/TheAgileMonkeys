@@ -52,13 +52,35 @@ List any software, tools, or dependencies that users need to install before usin
     Go to AgileApplication class and start the application. 
 
 
-### Usage   
 
 ### Register
+ 
+ ```console
+     POST http://localhost:8080/auth/register
+ ```
 ### Login
+ ```console
+     POST http://localhost:8080/auth/login
+ ```
 ### Create Customer
+ ```console
+     POST http://localhost:8080/customers
+ ```
 ### Update Customer
-### Update Customer
+ ```console
+     PUT http://localhost:8080/customers
+ ```
 ### Delete Customer
+ ```console
+     DELETE http://localhost:8080/customers/{CUSTOMER-ID}
+ ```
+
 ### Create User
+ ```console
+     POST http://localhost:8080/user
+ ```
+
 ### Change User Role
+ ```console
+     PUT http://localhost:8080/user/{USER-ID}
+ ``` 
