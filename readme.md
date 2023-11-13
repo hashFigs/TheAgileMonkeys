@@ -123,7 +123,7 @@ from postman select form-data and add the file name for the file type (the custo
 
 ### Change User Role
  ```console
-     PUT http://localhost:8080/user/{USER-ID}
+     PUT http://localhost:8080/user/change-role
  ``` 
  body Payload:
  ```console

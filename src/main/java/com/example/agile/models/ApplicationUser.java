@@ -62,7 +62,14 @@ public class ApplicationUser  implements UserDetails{
         super();
         this.authorities= new HashSet<Role>();
     }
-
+     public ApplicationUser( String username, String password, Set<Role> authorities ){
+        super();
+        this.username = username;
+        this.password = password;
+        this.authorities= authorities;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
+    }
     public ApplicationUser(Long userId, String username, String password, Set<Role> authorities ){
         super();
         this.userId = userId;

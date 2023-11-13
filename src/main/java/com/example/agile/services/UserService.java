@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.management.relation.RoleNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -51,12 +52,32 @@ public class UserService implements UserDetailsService{
     public ApplicationUser createUser(ApplicationUser user) throws Exception {
       // You can add validation and business logic here
       System.out.println("creating user");
+  
+      Optional<ApplicationUser> optionalUser = userRepository.findByUsername(user.getUsername());
+      System.out.println("USEERR");
+      System.out.println(optionalUser); 
 
+
+
+      if (optionalUser.isPresent()) {
+          // A user with the specified username already exists
+            System.out.println("creating user exists");
+
+          throw new UserNotFoundException("User with username " + user.getUsername() + " already exists");
+      }
+  
+      // No user with the specified username was found, proceed with the creation
       user.setCreatedAt(Instant.now());
       user.setUpdatedAt(Instant.now());
-     
-      return userRepository.save(user);
-    }
+  
+      try {
+          // Attempt to save the user
+          return userRepository.save(user);
+      } catch (DataIntegrityViolationException e) {
+          // Handle the case where a concurrent insert occurred
+          throw new UserNotFoundException("User with username " + user.getUsername() + " already exists");
+      }
+  }
 
     public ApplicationUser getUser(Long userId) {
         Optional<ApplicationUser> user = userRepository.findByUserId(userId);

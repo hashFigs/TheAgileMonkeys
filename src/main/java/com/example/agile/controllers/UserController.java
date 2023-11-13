@@ -2,6 +2,7 @@ package com.example.agile.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,10 +42,16 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ApplicationUser createUser(@RequestBody RegistrationDTO body) throws Exception {       
-       // return userService.createUser(user);
-       return authenticationService.registerUser(body.getUsername(), body.getPassword());
+    public ResponseEntity<ApplicationUser> createUser(@RequestBody RegistrationDTO body) throws Exception {       
+        //return userService.createUser(new ApplicationUser(body.getUsername(), body.getPassword())));
 
+        try{
+            ApplicationUser user = authenticationService.registerUser(body.getUsername(), body.getPassword());
+            return ResponseEntity.ok(user); 
+        }catch(UserNotFoundException e){
+           
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @DeleteMapping("/{userId}")
@@ -66,6 +73,7 @@ public class UserController {
    
      @PostMapping("/change-role")
     public ApplicationUser changeUserRole(@RequestBody RoleChangeDTO body) throws Exception {
+        
         return userService.changeUserRole(body.getUsername(), body.getNewRole());
 }
 

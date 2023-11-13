@@ -1,6 +1,7 @@
 package com.example.agile.services;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -44,6 +45,18 @@ public class AuthenticationService {
 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
+        
+        System.out.println("Inside creating user");
+        
+        Optional<ApplicationUser> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isPresent()) {
+            // A user with the specified username already exists
+
+            throw new UserNotFoundException("User with username " + username + " already exists");
+        }
+
+
 
         return userRepository.save(new ApplicationUser((long) 0, username, encodedPassword, authorities));
     }
