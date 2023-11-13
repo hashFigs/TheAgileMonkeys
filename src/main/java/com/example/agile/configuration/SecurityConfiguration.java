@@ -58,14 +58,14 @@ public class SecurityConfiguration {
             .csrf(csrf-> csrf.disable())
             .authorizeHttpRequests(auth -> {
                 auth.requestMatchers("/auth/**").permitAll();
-                auth.requestMatchers("/customers/**").permitAll();
-              //  auth.requestMatchers("/customers/**").hasAnyRole("ADMIN", "USER");
+               // auth.requestMatchers("/customers/**").permitAll();
+               auth.requestMatchers("/customers/**").hasAnyRole("ADMIN", "USER");
                 auth.requestMatchers("/media/**").permitAll();
-                auth.requestMatchers("/user/**").permitAll();
-               // auth.requestMatchers("/user/**").hasAnyRole("ADMIN");
-                auth.requestMatchers("/admin/**").permitAll();
+             //   auth.requestMatchers("/user/**").permitAll();
+                auth.requestMatchers("/user/**").hasAnyRole("ADMIN");
+                //auth.requestMatchers("/admin/**").permitAll();
 
-           //     auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                auth.requestMatchers("/admin/**").hasRole("ADMIN");
            //     auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
                 auth.anyRequest().authenticated();
             });
