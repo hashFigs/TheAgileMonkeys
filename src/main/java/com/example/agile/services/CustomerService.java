@@ -2,6 +2,7 @@ package com.example.agile.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import com.example.agile.models.CustomerDTO;
 import com.example.agile.models.Media;
 import com.example.agile.repository.CustomerRepository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,8 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final MediaService mediaService;
+    
+   
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository, MediaService mediaService) {
@@ -43,21 +47,32 @@ public class CustomerService {
         }
     }
 
-    public CustomerDTO createCustomer(Customer customer, MultipartFile file) throws Exception {
+    public CustomerDTO createCustomer(Customer customer, Optional<MultipartFile> file) throws Exception {
         // You can add validation and business logic here
         System.out.println(customer);
         CustomerDTO customerDTO = new CustomerDTO();
         
-        
-        if (file != null) {
-            Media mediaUploaded = mediaService.uploadMedia(file);
-            customer.setPhoto(mediaUploaded.getId());
-            customerDTO.setMediaId(mediaUploaded.getId());
-            customerDTO.setPhotoUrl(mediaUploaded.getFileName());
+        file.ifPresent(fileValue -> {
+            // If file is present, upload it
+            Media mediaUploaded;
+            try {
+                mediaUploaded = mediaService.uploadMedia(fileValue);
+                customer.setPhoto(mediaUploaded.getId());
+                customerDTO.setMediaId(mediaUploaded.getId());
+                customerDTO.setPhotoUrl(mediaUploaded.getFileName());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+           
+        });
 
-        }
+
         
         customer.setLastUpdated(getUserIdFromRequest());
+        customer.setCreatedAt(Instant.now());
+        customer.setUpdatedAt(Instant.now());
+
         customerRepository.save(customer);
 
 
@@ -66,6 +81,8 @@ public class CustomerService {
         customerDTO.setSurname(customer.getSurname());
         customerDTO.setName(customer.getName());
         customerDTO.setLastUpdatedBy(customer.getLastUpdated());
+        customerDTO.setUpdatedAt(customer.getUpdatedAt());
+        customerDTO.setCreatedAt(customer.getCreatedAt());
 
 
         return customerDTO;
@@ -73,8 +90,14 @@ public class CustomerService {
 
     public CustomerDTO updateCustomer(Long customerId, Customer updatedCustomer, MultipartFile file) throws Exception {
         // Check if the customer exists
-        //TODO: Check if wrong customer
+
+        if (!customerRepository.existsById(customerId)) {
+            throw new CustomerNotFoundException("Customer with ID " + customerId + " not found");
+        }
+        
         Customer existingCustomer = getCustomer(customerId);
+
+
         CustomerDTO customerDTO = new CustomerDTO();
  
          if (file != null) {
@@ -96,7 +119,9 @@ public class CustomerService {
         customerDTO.setSurname(existingCustomer.getSurname());
         customerDTO.setName(existingCustomer.getName());
         customerDTO.setLastUpdatedBy(existingCustomer.getLastUpdated());
-       
+        customerDTO.setCreatedAt(existingCustomer.getCreatedAt());
+        customerDTO.setUpdatedAt(existingCustomer.getUpdatedAt());
+ 
 
         return  customerDTO;
     }

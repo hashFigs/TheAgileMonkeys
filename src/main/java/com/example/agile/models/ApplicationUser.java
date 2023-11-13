@@ -1,5 +1,6 @@
 package com.example.agile.models;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +8,8 @@ import java.util.Set;
 
 
 import org.hibernate.annotations.ManyToAny;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,12 +37,17 @@ public class ApplicationUser  implements UserDetails{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="user_id")
     
-    private Integer userId;
+    private Long userId;
     @Column(unique=true)
     
     private String username;
 
     private String password;
+    
+    @CreatedDate
+    private Instant createdAt;
+    @LastModifiedDate
+    private Instant updatedAt;
 
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
@@ -55,18 +63,20 @@ public class ApplicationUser  implements UserDetails{
         this.authorities= new HashSet<Role>();
     }
 
-    public ApplicationUser(Integer userId, String username, String password, Set<Role> authorities ){
+    public ApplicationUser(Long userId, String username, String password, Set<Role> authorities ){
         super();
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.authorities= authorities;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
-    public Integer getUserId(){
+    public Long getUserId(){
         return this.userId;
     }
-    public void setUserId(Integer userId){
+    public void setUserId(Long userId){
         this.userId = userId;
     }
 
@@ -117,6 +127,19 @@ public class ApplicationUser  implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setCreatedAt(Instant timenow){
+        this.createdAt = timenow;
+    }
+    public Instant getCreatedAt(){
+        return this.createdAt;
+    }
+    public void setUpdatedAt(Instant timenow){
+        this.updatedAt = timenow;
+    }
+    public Instant getUpdatedAt(){
+        return this.updatedAt;
     }
     
 }

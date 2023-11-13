@@ -1,6 +1,7 @@
 package com.example.agile.services;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,11 @@ public class MediaService {
         try {
             
              Media uploadedMedia = s3FileUploadService.uploadFile(file);
+             uploadedMedia.setCreatedAt(Instant.now());
 
              Media savedMedia = mediaRepository.save(uploadedMedia);
             
-            uploadedMedia.setId(savedMedia.getId());
+             uploadedMedia.setId(savedMedia.getId());
          
             return uploadedMedia;
  
@@ -40,7 +42,5 @@ public class MediaService {
     public Optional<Media> getMediaById(Long mediaId) {
         return mediaRepository.findById(mediaId);
     }
-
-    // Implement methods for media management, such as deletion, updating metadata, etc. 
     
 }

@@ -1,5 +1,6 @@
 package com.example.agile.services;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,9 @@ public class UserService implements UserDetailsService{
     public ApplicationUser createUser(ApplicationUser user) throws Exception {
       // You can add validation and business logic here
       System.out.println("creating user");
+
+      user.setCreatedAt(Instant.now());
+      user.setUpdatedAt(Instant.now());
      
       return userRepository.save(user);
     }
@@ -59,7 +63,7 @@ public class UserService implements UserDetailsService{
         if (user.isPresent()) {
             return user.get();
         } else {
-            throw new CustomerNotFoundException("Customer with ID " + userId + " not found");
+            throw new CustomerNotFoundException("User with ID " + userId + " not found");
 
             
         }
@@ -67,10 +71,18 @@ public class UserService implements UserDetailsService{
 
     public ApplicationUser updateUser(Long userId, ApplicationUser updatedUser) {
       // Check if the customer exists
-      ApplicationUser existingUser = getUser(userId);
+      if (!userRepository.existsById( userId)) {
+        throw new UserNotFoundException("User with ID " + userId + " not found");
+    }
+
+      ApplicationUser existingUser = getUser((long) userId);
 
       // You can add validation and business logic here
       existingUser.setUsername(updatedUser.getUsername());
+    //  existingUser.setPassword(updatedUser.getPassword());
+
+      existingUser.setUpdatedAt(Instant.now());
+
 
       return userRepository.save(existingUser);
   }

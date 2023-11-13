@@ -1,6 +1,7 @@
 package com.example.agile.models;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -25,6 +26,7 @@ public class Media {
     private int height;
     private int width;
     private long mediaSize;
+    private Instant createdAt;
 
     // Constructors
 
@@ -42,6 +44,7 @@ public class Media {
         this.height = height;
         this.width = width;
         this.mediaSize = mediaSize;
+        this.createdAt =Instant.now();
     }
 
     // Getters and Setters
@@ -110,9 +113,14 @@ public class Media {
         this.mediaSize = mediaSize;
     }
 
+    public void setCreatedAt(Instant timenow){
+        this.createdAt = timenow;
+    }
+    public Instant getCreatedAt(){
+        return this.createdAt;
+    }
+ 
 
 
-    // Additional fields and methods
 
-    // Customize this class with any additional fields and methods as needed.
 }

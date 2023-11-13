@@ -1,5 +1,7 @@
 package com.example.agile.models;
 
+import java.time.Instant;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +23,10 @@ public class Customer {
     private Long photoId;
 
     private String lastUpdated;
+
+    private Instant createdAt;
+    private Instant updatedAt;
+
 
     // Constructors, getters, and setters
 
@@ -76,4 +82,19 @@ public class Customer {
     public void setPhoto(Long photoId) {
         this.photoId = photoId;
     }
+    public void setCreatedAt(Instant timenow){
+        this.createdAt = timenow;
+    }
+    public Instant getCreatedAt(){
+        return this.createdAt;
+    }
+    public void setUpdatedAt(Instant timenow){
+        this.updatedAt = timenow;
+    }
+    public Instant getUpdatedAt(){
+        return this.updatedAt;
+    }
+
+
+
 }

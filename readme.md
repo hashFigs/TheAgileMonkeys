@@ -58,18 +58,51 @@ List any software, tools, or dependencies that users need to install before usin
  ```console
      POST http://localhost:8080/auth/register
  ```
+
+ body Payload:
+ ```console
+     {
+    "username": "jordi99",
+    "password": "password99"
+     }
+ ```
+
 ### Login
  ```console
      POST http://localhost:8080/auth/login
  ```
+  
+  Body Payload:
+ ```console
+     {
+    "username": "jordi99",
+    "password": "password99"
+     }
+ ```
+
+ the reponse of the login call will return a jwt token. You have to include this token as a beared token 
+ in your future calls to the api. 
+
 ### Create Customer
  ```console
      POST http://localhost:8080/customers
  ```
+Body payload (customerpicture file is optional)
+from postman select form-data and add the file name for the file type (the customer picture) 
+ ```console
+     {
+    "name": "jordi99",
+    "surname": "password99"
+    "file": picture 
+     }
+ ```
+
 ### Update Customer
  ```console
      PUT http://localhost:8080/customers
  ```
+ same payload than Create user
+
 ### Delete Customer
  ```console
      DELETE http://localhost:8080/customers/{CUSTOMER-ID}
@@ -77,10 +110,26 @@ List any software, tools, or dependencies that users need to install before usin
 
 ### Create User
  ```console
-     POST http://localhost:8080/user
+     POST http://localhost:8080/user/
+ ```
+
+  body Payload:
+ ```console
+     {
+    "username": "jordi98",
+    "password": "password98"
+     }
  ```
 
 ### Change User Role
  ```console
      PUT http://localhost:8080/user/{USER-ID}
  ``` 
+ body Payload:
+ ```console
+ {
+    "username": "jordi",
+    "newRole": "USER"
+
+}
+ ```

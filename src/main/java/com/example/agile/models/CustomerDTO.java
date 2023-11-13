@@ -1,5 +1,7 @@
 package com.example.agile.models;
 
+import java.time.Instant;
+
 public class CustomerDTO {
 
     private Long id ;
@@ -8,6 +10,8 @@ public class CustomerDTO {
     private String lastUpdatedBy;
     private Long mediaId;
     private String photoUrl;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     
 
@@ -20,15 +24,28 @@ public class CustomerDTO {
     }
 
     // Constructor with all fields
-    public CustomerDTO(Long id, String name, String surname, String lastUpdatedBy, Long mediaId, String photoUrl) {
+    public CustomerDTO(Long id, String name, String surname, String lastUpdatedBy,
+                         Long mediaId, String photoUrl, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.lastUpdatedBy = lastUpdatedBy;
         this.mediaId = mediaId;
         this.photoUrl = photoUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
-   
+    
+     public CustomerDTO(Customer customer) {
+        this.id = customer.getId();
+        this.name = customer.getName();
+        this.surname = customer.getSurname();
+        this.createdAt = customer.getCreatedAt();
+        this.updatedAt = customer.getUpdatedAt();
+    } 
+
+
+
      // Getter and Setter methods for id
      public Long getId() {
         return id;
@@ -81,6 +98,18 @@ public class CustomerDTO {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+    public void setCreatedAt(Instant timenow){
+        this.createdAt = timenow;
+    }
+    public Instant getCreatedAt(){
+        return this.createdAt;
+    }
+    public void setUpdatedAt(Instant timenow){
+        this.updatedAt = timenow;
+    }
+    public Instant getUpdatedAt(){
+        return this.updatedAt;
     }
     
 }
